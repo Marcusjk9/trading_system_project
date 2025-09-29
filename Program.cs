@@ -24,8 +24,22 @@ Ni ska kunna svara på “Varför?” gällande er kod.
     A user needs to be able to browse completed requests. (__)
     */
 
-/*skapa user, sak att tradea, login/out, ska kunna hålla information om itemet, se andras inventory, trade request, browse trade request, accept, deny, browse historik
+/*registrera user, sak att tradea, login/out, ska kunna hålla information om itemet, se andras inventory, trade request, browse trade request, accept, deny, browse historik
 */
 
 using App;
+
+
+
+bool running = true;
+
+
+while (running)
+{
+  Console.WriteLine("===== Main Menu ====");
+  foreach (var option in Enum.GetValues(typeof(Menu)))
+
+    Console.WriteLine($"{(int)option}. {option}");
+  Console.ReadLine();
+}
 

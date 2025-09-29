@@ -2,11 +2,10 @@ namespace App;
 
 enum Menu
 {
-  none,
-  main,
-  login,
-  tradeRequest,
   inventory,
+  othersInventory,
+  tradeOffers,
+  tradeRequest,
   history,
 
 }
