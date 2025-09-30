@@ -27,54 +27,75 @@ Ni ska kunna svara på “Varför?” gällande er kod.
 /*registrera user, sak att tradea, login/out, ska kunna hålla information om itemet, se andras inventory, trade request, browse trade request, accept, deny, browse historik
 */
 
+/* tillägg att kunna spara tex profiler vi skapar i terminalen*/
+
+using System.Reflection.Metadata;
 using App;
 
+List<User> users = new List<User>();
+users.Add(new User("a", "a"));
+
+User activeUser = null;
 bool loggedIn = false;
 
 while (!loggedIn)
 {
   Console.Clear();
-  Console.WriteLine("===== Login Menu =====");
-  foreach (var option in Enum.GetValues(typeof(Login)))
+  if (activeUser == null)
   {
-    Console.WriteLine($"{(int)option}. {option}");
-  }
-  Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
-  switch (Convert.ToInt32(Console.ReadLine()))
-  {
-    case 0:
-      Console.Clear();
-      Console.WriteLine("===== Login Menu ====");
-      Console.WriteLine("username:");
-      Console.ReadLine();
-      Console.WriteLine("password:");
-      Console.ReadLine();
-      break;
+    Console.WriteLine("===== Login Menu =====");
+    foreach (var option in Enum.GetValues(typeof(Login)))
+    {
+      Console.WriteLine($"{(int)option}. {option}");
+    }
+    Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
+    switch (Convert.ToInt32(Console.ReadLine()))
+    {
+      case 0:
+        Console.Clear();
+        Console.WriteLine("===== Login Menu =====");
+        Console.WriteLine("username:");
+        string? username = Console.ReadLine();
+        Console.WriteLine("password:");
+        string? password = Console.ReadLine();
 
-    case 1:
-      Console.Clear();
-      Console.WriteLine("===== Register Menu ====");
-      Console.WriteLine("username:");
-      Console.ReadLine();
-      Console.WriteLine("password:");
-      Console.ReadLine();
-      break;
+        foreach (User user in users)
+        {
+          if (user.TryLogin(username, password))
+          {
+            activeUser = user;
+            loggedIn = true;
+            break;
+          }
 
-    case 2:
-      Console.Clear();
-      Console.WriteLine("exiting....");
-      return;
+        }
+        break;
+
+      case 1:
+        Console.Clear();
+        Console.WriteLine("===== Register Menu =====");
+        Console.WriteLine("username:");
+        Console.ReadLine();
+        Console.WriteLine("password:");
+        Console.ReadLine();
+        break;
+
+      case 2:
+        Console.Clear();
+        Console.WriteLine("exiting....");
+        return;
+    }
   }
 }
 
 
-bool running = true;
 
 
-while (running)
+
+if (activeUser != null)
 {
   Console.Clear();
-  Console.WriteLine("===== Main Menu ====");
+  Console.WriteLine("===== Main Menu =====");
   foreach (var option in Enum.GetValues(typeof(Menu)))
   {
     Console.WriteLine($"{(int)option}. {option}");
@@ -84,34 +105,34 @@ while (running)
   {
     case 0:
       Console.Clear();
-      Console.WriteLine("===== Welcome to your inventory ====");
+      Console.WriteLine("===== Welcome to your inventory =====");
       Console.ReadLine();
       break;
 
     case 1:
       Console.Clear();
-      Console.WriteLine("===== Peak on others inventory ====");
+      Console.WriteLine("===== Peak on others inventory =====");
       Console.ReadLine();
       break;
     case 2:
       Console.Clear();
-      Console.WriteLine("===== Send trade offers ====");
+      Console.WriteLine("===== Send trade offers =====");
       Console.ReadLine();
       break;
 
     case 3:
       Console.Clear();
-      Console.WriteLine("===== All active traderequests ====");
+      Console.WriteLine("===== All active traderequests =====");
       Console.ReadLine();
       break;
     case 4:
       Console.Clear();
-      Console.WriteLine("===== Your trade history ====");
+      Console.WriteLine("===== Your trade history =====");
       Console.ReadLine();
       break;
     case 5:
       Console.Clear();
-      running = false;
+      loggedIn = false;
       break;
   }
 }
