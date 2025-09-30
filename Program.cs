@@ -36,10 +36,46 @@ bool running = true;
 
 while (running)
 {
+  Console.Clear();
   Console.WriteLine("===== Main Menu ====");
   foreach (var option in Enum.GetValues(typeof(Menu)))
 
     Console.WriteLine($"{(int)option}. {option}");
-  Console.ReadLine();
+
+
+  switch (Convert.ToInt32(Console.ReadLine()))
+  {
+    case 0:
+      Console.Clear();
+      Console.WriteLine("===== Welcome to your inventory ====");
+      Console.ReadLine();
+      break;
+
+    case 1:
+      Console.Clear();
+      Console.WriteLine("===== Peak on others inventory ====");
+      Console.ReadLine();
+      break;
+    case 2:
+      Console.Clear();
+      Console.WriteLine("===== Send trade offers ====");
+      Console.ReadLine();
+      break;
+
+    case 3:
+      Console.Clear();
+      Console.WriteLine("===== All active traderequests ====");
+      Console.ReadLine();
+      break;
+    case 4:
+      Console.Clear();
+      Console.WriteLine("===== Your trade history ====");
+      Console.ReadLine();
+      break;
+    case 5:
+      Console.Clear();
+      running = false;
+      break;
+  }
 }
 

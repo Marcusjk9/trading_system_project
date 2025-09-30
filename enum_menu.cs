@@ -7,5 +7,5 @@ enum Menu
   tradeOffers,
   tradeRequest,
   history,
-
+  logOut,
 }
