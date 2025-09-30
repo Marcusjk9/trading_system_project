@@ -29,6 +29,43 @@ Ni ska kunna svara på “Varför?” gällande er kod.
 
 using App;
 
+bool loggedIn = false;
+
+while (!loggedIn)
+{
+  Console.Clear();
+  Console.WriteLine("===== Login Menu =====");
+  foreach (var option in Enum.GetValues(typeof(Login)))
+  {
+    Console.WriteLine($"{(int)option}. {option}");
+  }
+  Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
+  switch (Convert.ToInt32(Console.ReadLine()))
+  {
+    case 0:
+      Console.Clear();
+      Console.WriteLine("===== Login Menu ====");
+      Console.WriteLine("username:");
+      Console.ReadLine();
+      Console.WriteLine("password:");
+      Console.ReadLine();
+      break;
+
+    case 1:
+      Console.Clear();
+      Console.WriteLine("===== Register Menu ====");
+      Console.WriteLine("username:");
+      Console.ReadLine();
+      Console.WriteLine("password:");
+      Console.ReadLine();
+      break;
+
+    case 2:
+      Console.Clear();
+      Console.WriteLine("exiting....");
+      return;
+  }
+}
 
 
 bool running = true;
@@ -39,10 +76,10 @@ while (running)
   Console.Clear();
   Console.WriteLine("===== Main Menu ====");
   foreach (var option in Enum.GetValues(typeof(Menu)))
-
+  {
     Console.WriteLine($"{(int)option}. {option}");
-
-
+  }
+  Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
   switch (Convert.ToInt32(Console.ReadLine()))
   {
     case 0:
