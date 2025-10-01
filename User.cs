@@ -1,5 +1,14 @@
 namespace App;
 
+class Items
+{
+  public string Weapon { get; set; }
+  public string Skin { get; set; }
+  public string Wear { get; set; }
+
+
+}
+
 class User
 {
   public string Username;
@@ -15,4 +24,5 @@ class User
   {
     return username == Username && password == _password;
   }
+
 }

@@ -35,6 +35,14 @@ using App;
 List<User> users = new List<User>();
 users.Add(new User("a", "a"));
 
+List<Items> items = new List<Items>();
+items.Add(new Items
+{
+  Weapon = "AWP",
+  Skin = "Dragon Lore",
+  Wear = "BS"
+});
+
 User activeUser = null;
 bool loggedIn = false;
 
@@ -67,6 +75,11 @@ while (!loggedIn)
             loggedIn = true;
             break;
           }
+          else
+          {
+            Console.WriteLine("\nworng password and/or username...\n---Press Enter to go back---");
+            Console.ReadLine();
+          }
 
         }
         break;
@@ -92,7 +105,7 @@ while (!loggedIn)
 
 
 
-if (activeUser != null)
+if (activeUser != null && loggedIn == true)
 {
   Console.Clear();
   Console.WriteLine("===== Main Menu =====");
