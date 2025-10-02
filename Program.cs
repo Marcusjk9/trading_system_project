@@ -39,130 +39,144 @@ users.Add(new User("a", "a"));
 
 User activeUser = null;
 bool loggedIn = false;
-
-while (!loggedIn)
+while (true)
 {
-  Console.Clear();
-  if (activeUser == null)
-  {
-    Console.WriteLine("===== Login Menu =====");
-    foreach (var option in Enum.GetValues(typeof(Login)))
-    {
-      Console.WriteLine($"{(int)option}. {option}");
-    }
-    Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
-    switch (Convert.ToInt32(Console.ReadLine()))
-    {
-      case 0:
-        Console.Clear();
-        Console.WriteLine("===== Login Menu =====");
-        Console.WriteLine("username:");
-        string? username = Console.ReadLine();
-        Console.WriteLine("password:");
-        string? password = Console.ReadLine();
 
-        foreach (User user in users)
-        {
-          if (user.TryLogin(username, password))
-          {
-            activeUser = user;
-            loggedIn = true;
-            break;
-          }
-        }
-
-        if (!loggedIn)
-        {
-          Console.WriteLine("\nworng password and/or username...\n---Press Enter to go back---");
-          Console.ReadLine();
-        }
-        break;
-
-
-
-      case 1:
-        Console.Clear();
-        Console.WriteLine("===== Register Menu =====");
-        Console.WriteLine("username:");
-        string? Username = Console.ReadLine();
-        Console.WriteLine("password:");
-        string? _password = Console.ReadLine();
-        Console.Clear();
-        users.Add(new User(Username, _password));
-        Console.WriteLine("register done, now go and login");
-        Console.ReadLine();
-        break;
-
-      case 2:
-        Console.Clear();
-        Console.WriteLine("exiting....");
-        return;
-    }
-  }
-
-
-
-
-
-  if (activeUser != null && loggedIn == true)
+  while (!loggedIn)
   {
     Console.Clear();
-    Console.WriteLine("===== Main Menu =====");
-    foreach (var option in Enum.GetValues(typeof(Menu)))
+    if (activeUser == null)
     {
-      Console.WriteLine($"{(int)option}. {option}");
+      Console.WriteLine("===== Login Menu =====");
+      foreach (var option in Enum.GetValues(typeof(Login)))
+      {
+        Console.WriteLine($"{(int)option}. {option}");
+      }
+      Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
+      switch (Convert.ToInt32(Console.ReadLine()))
+      {
+        case 0:
+          Console.Clear();
+          Console.WriteLine("===== Login Menu =====");
+          Console.WriteLine("username:");
+          string? username = Console.ReadLine();
+          Console.WriteLine("password:");
+          string? password = Console.ReadLine();
+
+          foreach (User user in users)
+          {
+            if (user.TryLogin(username, password))
+            {
+              activeUser = user;
+              loggedIn = true;
+              break;
+            }
+          }
+
+          if (!loggedIn)
+          {
+            Console.WriteLine("\nworng password and/or username...\n---Press Enter to go back---");
+            Console.ReadLine();
+          }
+          break;
+
+
+
+        case 1:
+          Console.Clear();
+          Console.WriteLine("===== Register Menu =====");
+          Console.WriteLine("username:");
+          string? Username = Console.ReadLine();
+          Console.WriteLine("password:");
+          string? _password = Console.ReadLine();
+          Console.Clear();
+          users.Add(new User(Username, _password));
+          Console.WriteLine("register done, now go and login");
+          Console.ReadLine();
+          break;
+
+        case 2:
+          Console.Clear();
+          Console.WriteLine("exiting....");
+          return;
+      }
     }
-    Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
-    switch (Convert.ToInt32(Console.ReadLine()))
+
+
+
+
+
+    while (activeUser != null && loggedIn)
     {
-      case 0:
-        Console.Clear();
-        Console.WriteLine("===== Welcome to your inventory =====");
-        activeUser.ShowInventory();
-        Console.WriteLine("\nWould you like to add a new item? y/n");
-        if (Console.ReadLine().ToLower() == "y")
-        {
-          Console.WriteLine("What kind of weapon type:");
-          string weapon = Console.ReadLine();
+      Console.Clear();
+      Console.WriteLine("===== Main Menu =====");
+      foreach (var option in Enum.GetValues(typeof(Menu)))
+      {
+        Console.WriteLine($"{(int)option}. {option}");
+      }
+      Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
+      switch (Convert.ToInt32(Console.ReadLine()))
+      {
+        case 0:
+          Console.Clear();
+          Console.WriteLine("===== Welcome to your inventory =====");
+          activeUser.ShowInventory();
+          Console.WriteLine("\nWould you like to add a new item? y/n");
+          if (Console.ReadLine().ToLower() == "y")
+          {
+            Console.WriteLine("What kind of weapon type:");
+            string weapon = Console.ReadLine();
 
-          Console.WriteLine("What kind of skin on the weapon:");
-          string skin = Console.ReadLine();
+            Console.WriteLine("What kind of skin on the weapon:");
+            string skin = Console.ReadLine();
 
-          Console.WriteLine("What kind of wear on the skin:");
-          string wear = Console.ReadLine();
+            Console.WriteLine("What kind of wear on the skin:");
+            string wear = Console.ReadLine();
 
-          activeUser.AddItem(new Items { Weapon = weapon, Skin = skin, Wear = wear });
-          Console.WriteLine("New item added");
+            activeUser.AddItem(new Items { Weapon = weapon, Skin = skin, Wear = wear });
+            Console.WriteLine("New item added");
 
-        }
-        Console.ReadLine();
-        break;
+          }
+          Console.WriteLine("\n---Press Enter to go back---");
+          Console.ReadLine();
+          break;
 
-      case 1:
-        Console.Clear();
-        Console.WriteLine("===== Peak on others inventory =====");
-        Console.ReadLine();
-        break;
-      case 2:
-        Console.Clear();
-        Console.WriteLine("===== Send trade offers =====");
-        Console.ReadLine();
-        break;
+        case 1:
+          Console.Clear();
+          Console.WriteLine("===== Peak on others inventory =====");
+          foreach (var user in users)
+          {
+            if (user != activeUser)
+            {
+              Console.WriteLine($"{user.Username} inventory:");
+              user.ShowInventory();
+            }
+          }
+          Console.WriteLine("\n---Press Enter to go back---");
+          Console.ReadLine();
+          break;
+        case 2:
+          Console.Clear();
+          Console.WriteLine("===== Send trade offers =====");
+          Console.ReadLine();
+          break;
 
-      case 3:
-        Console.Clear();
-        Console.WriteLine("===== All active traderequests =====");
-        Console.ReadLine();
-        break;
-      case 4:
-        Console.Clear();
-        Console.WriteLine("===== Your trade history =====");
-        Console.ReadLine();
-        break;
-      case 5:
-        Console.Clear();
-        loggedIn = false;
-        break;
+        case 3:
+          Console.Clear();
+          Console.WriteLine("===== All active traderequests =====");
+          Console.ReadLine();
+          break;
+        case 4:
+          Console.Clear();
+          Console.WriteLine("===== Your trade history =====");
+          Console.ReadLine();
+          break;
+        case 5:
+          Console.Clear();
+          loggedIn = false;
+          activeUser = null;
+          break;
+      }
     }
   }
 }
