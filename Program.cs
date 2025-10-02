@@ -118,6 +118,23 @@ while (!loggedIn)
       case 0:
         Console.Clear();
         Console.WriteLine("===== Welcome to your inventory =====");
+        activeUser.ShowInventory();
+        Console.WriteLine("\nWould you like to add a new item? y/n");
+        if (Console.ReadLine().ToLower() == "y")
+        {
+          Console.WriteLine("What kind of weapon type:");
+          string weapon = Console.ReadLine();
+
+          Console.WriteLine("What kind of skin on the weapon:");
+          string skin = Console.ReadLine();
+
+          Console.WriteLine("What kind of wear on the skin:");
+          string wear = Console.ReadLine();
+
+          activeUser.AddItem(new Items { Weapon = weapon, Skin = skin, Wear = wear });
+          Console.WriteLine("New item added");
+
+        }
         Console.ReadLine();
         break;
 
