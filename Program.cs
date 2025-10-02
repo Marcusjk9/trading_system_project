@@ -12,9 +12,9 @@ Ni ska kunna svara på “Varför?” gällande er kod.
 */
 
 /*
-    A user needs to be able to register an account  (__)
+    A user needs to be able to register an account  (**)
     A user needs to be able to log out. (__)
-    A user needs to be able to log in. (__)
+    A user needs to be able to log in. (**)
     A user needs to be able to upload information about the item they wish to trade. (__)
     A user needs to be able to browse a list of other users items. (__)
     A user needs to be able to request a trade for other users items. (__)
@@ -35,13 +35,7 @@ using App;
 List<User> users = new List<User>();
 users.Add(new User("a", "a"));
 
-List<Items> items = new List<Items>();
-items.Add(new Items
-{
-  Weapon = "AWP",
-  Skin = "Dragon Lore",
-  Wear = "BS"
-});
+
 
 User activeUser = null;
 bool loggedIn = false;
@@ -90,9 +84,9 @@ while (!loggedIn)
         Console.Clear();
         Console.WriteLine("===== Register Menu =====");
         Console.WriteLine("username:");
-        string Username = Console.ReadLine();
+        string? Username = Console.ReadLine();
         Console.WriteLine("password:");
-        string _password = Console.ReadLine();
+        string? _password = Console.ReadLine();
         Console.Clear();
         users.Add(new User(Username, _password));
         Console.WriteLine("register done, now go and login");
@@ -105,54 +99,54 @@ while (!loggedIn)
         return;
     }
   }
-}
 
 
 
 
 
-if (activeUser != null && loggedIn == true)
-{
-  Console.Clear();
-  Console.WriteLine("===== Main Menu =====");
-  foreach (var option in Enum.GetValues(typeof(Menu)))
+  if (activeUser != null && loggedIn == true)
   {
-    Console.WriteLine($"{(int)option}. {option}");
-  }
-  Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
-  switch (Convert.ToInt32(Console.ReadLine()))
-  {
-    case 0:
-      Console.Clear();
-      Console.WriteLine("===== Welcome to your inventory =====");
-      Console.ReadLine();
-      break;
+    Console.Clear();
+    Console.WriteLine("===== Main Menu =====");
+    foreach (var option in Enum.GetValues(typeof(Menu)))
+    {
+      Console.WriteLine($"{(int)option}. {option}");
+    }
+    Console.WriteLine("\nEnter the NUMBER of the place you want to go...");
+    switch (Convert.ToInt32(Console.ReadLine()))
+    {
+      case 0:
+        Console.Clear();
+        Console.WriteLine("===== Welcome to your inventory =====");
+        Console.ReadLine();
+        break;
 
-    case 1:
-      Console.Clear();
-      Console.WriteLine("===== Peak on others inventory =====");
-      Console.ReadLine();
-      break;
-    case 2:
-      Console.Clear();
-      Console.WriteLine("===== Send trade offers =====");
-      Console.ReadLine();
-      break;
+      case 1:
+        Console.Clear();
+        Console.WriteLine("===== Peak on others inventory =====");
+        Console.ReadLine();
+        break;
+      case 2:
+        Console.Clear();
+        Console.WriteLine("===== Send trade offers =====");
+        Console.ReadLine();
+        break;
 
-    case 3:
-      Console.Clear();
-      Console.WriteLine("===== All active traderequests =====");
-      Console.ReadLine();
-      break;
-    case 4:
-      Console.Clear();
-      Console.WriteLine("===== Your trade history =====");
-      Console.ReadLine();
-      break;
-    case 5:
-      Console.Clear();
-      loggedIn = false;
-      break;
+      case 3:
+        Console.Clear();
+        Console.WriteLine("===== All active traderequests =====");
+        Console.ReadLine();
+        break;
+      case 4:
+        Console.Clear();
+        Console.WriteLine("===== Your trade history =====");
+        Console.ReadLine();
+        break;
+      case 5:
+        Console.Clear();
+        loggedIn = false;
+        break;
+    }
   }
 }
 
