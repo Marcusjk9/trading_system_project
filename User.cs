@@ -12,7 +12,7 @@ class Items
 class User
 {
   public string Username;
-  public string _password;
+  string _password;
 
 
   public User(string username, string password)

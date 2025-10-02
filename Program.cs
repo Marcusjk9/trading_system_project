@@ -75,21 +75,27 @@ while (!loggedIn)
             loggedIn = true;
             break;
           }
-          else
-          {
-            Console.WriteLine("\nworng password and/or username...\n---Press Enter to go back---");
-            Console.ReadLine();
-          }
+        }
 
+        if (!loggedIn)
+        {
+          Console.WriteLine("\nworng password and/or username...\n---Press Enter to go back---");
+          Console.ReadLine();
         }
         break;
+
+
 
       case 1:
         Console.Clear();
         Console.WriteLine("===== Register Menu =====");
         Console.WriteLine("username:");
-        Console.ReadLine();
+        string Username = Console.ReadLine();
         Console.WriteLine("password:");
+        string _password = Console.ReadLine();
+        Console.Clear();
+        users.Add(new User(Username, _password));
+        Console.WriteLine("register done, now go and login");
         Console.ReadLine();
         break;
 
