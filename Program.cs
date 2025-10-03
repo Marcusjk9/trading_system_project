@@ -33,7 +33,22 @@ using System.Reflection.Metadata;
 using App;
 
 List<User> users = new List<User>();
-users.Add(new User("a", "a"));
+
+var userA = new User("a", "a");
+users.Add(userA);
+userA.AddItem(new Items { Weapon = "AWP", Skin = "Dragon Lore", Wear = "FN" });
+userA.AddItem(new Items { Weapon = "AK-47", Skin = "Redline", Wear = "FT" });
+var userS = new User("s", "s");
+users.Add(userS);
+userS.AddItem(new Items { Weapon = "M4A1-S", Skin = "Nightmare", Wear = "BS" });
+userS.AddItem(new Items { Weapon = "AK-47", Skin = "Slate", Wear = "FT" });
+var userD = new User("d", "d");
+users.Add(userD);
+userD.AddItem(new Items { Weapon = "USP-S", Skin = "Jawbreaker", Wear = "FN" });
+userD.AddItem(new Items { Weapon = "Glock", Skin = "Fade", Wear = "BS" });
+
+
+
 
 List<TradeRequest> tradeRequests = new List<TradeRequest>();
 
@@ -230,6 +245,20 @@ while (true)
         case 3:
           Console.Clear();
           Console.WriteLine("===== All active traderequests =====");
+          foreach (var request in tradeRequests)
+          {
+            if (request.ToUser == activeUser)
+            {
+              Console.WriteLine($"From: {request.FromUser.Username}");
+              Console.WriteLine("Items offered:");
+              foreach (var item in request.OfferedItems)
+              {
+                Console.WriteLine($"- {item.Weapon} | {item.Skin} | {item.Wear}");
+              }
+              Console.WriteLine();
+            }
+          }
+          Console.WriteLine("\n---press Enter to go back---");
           Console.ReadLine();
           break;
         case 4:

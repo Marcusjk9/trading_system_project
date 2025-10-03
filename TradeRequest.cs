@@ -5,12 +5,14 @@ class TradeRequest
   public User FromUser { get; set; }
   public User ToUser { get; set; }
   public List<Items> OfferedItems { get; set; } = new List<Items>();
+
   public bool IsCompleted { get; set; } = false;
+  public bool IsAccepted { get; set; } = false;
 
   public TradeRequest(User fromUser, User toUser, List<Items> offeredItems)
   {
     FromUser = fromUser;
-    ToUser = ToUser;
+    ToUser = toUser;
     OfferedItems = offeredItems;
   }
 
@@ -21,5 +23,9 @@ class TradeRequest
     {
       Console.WriteLine($" {item.Weapon} | {item.Skin}  ({item.Wear})");
     }
+  }
+  public void Accept()
+  {
+
   }
 }
