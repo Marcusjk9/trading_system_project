@@ -13,10 +13,10 @@ Ni ska kunna svara på “Varför?” gällande er kod.
 
 /*
     A user needs to be able to register an account  (**)
-    A user needs to be able to log out. (__)
+    A user needs to be able to log out. (**)
     A user needs to be able to log in. (**)
     A user needs to be able to upload information about the item they wish to trade. (__)
-    A user needs to be able to browse a list of other users items. (__)
+    A user needs to be able to browse a list of other users items. (**)
     A user needs to be able to request a trade for other users items. (__)
     A user needs to be able to browse trade requests. (__)
     A user needs to be able to accept a trade request. (__)
@@ -27,7 +27,7 @@ Ni ska kunna svara på “Varför?” gällande er kod.
 /*registrera user, sak att tradea, login/out, ska kunna hålla information om itemet, se andras inventory, trade request, browse trade request, accept, deny, browse historik
 */
 
-/* tillägg att kunna spara tex profiler vi skapar i terminalen*/
+/* tillägg att kunna spara tex profiler vi skapar i terminalen OBS ska göra en README ang vad jag använt och vad jag inte använt och varför*/
 
 using System.Reflection.Metadata;
 using App;
@@ -35,6 +35,7 @@ using App;
 List<User> users = new List<User>();
 users.Add(new User("a", "a"));
 
+List<TradeRequest> tradeRequests = new List<TradeRequest>();
 
 
 User activeUser = null;
@@ -124,13 +125,13 @@ while (true)
           Console.WriteLine("\nWould you like to add a new item? y/n");
           if (Console.ReadLine().ToLower() == "y")
           {
-            Console.WriteLine("What kind of weapon type:");
+            Console.WriteLine("Write what kind of weapon type: [AWP] [AK47] [M4A4]");
             string weapon = Console.ReadLine();
 
-            Console.WriteLine("What kind of skin on the weapon:");
+            Console.WriteLine("What kind of skin on the weapon: [PAW] [BOOM] [Nightmare]");
             string skin = Console.ReadLine();
 
-            Console.WriteLine("What kind of wear on the skin:");
+            Console.WriteLine("What kind of wear on the skin: [BS] [FT] [FN]");
             string wear = Console.ReadLine();
 
             activeUser.AddItem(new Items { Weapon = weapon, Skin = skin, Wear = wear });
@@ -158,6 +159,71 @@ while (true)
         case 2:
           Console.Clear();
           Console.WriteLine("===== Send trade offers =====");
+          Console.WriteLine("\nChoose a user to send a trade offer to:");
+          int i = 1;
+          List<User> otherUsers = new List<User>();
+          foreach (var user in users)
+          {
+            if (user != activeUser)
+            {
+              Console.WriteLine($"{i}. {user.Username}");
+              otherUsers.Add(user);
+              i++;
+            }
+          }
+          if (otherUsers.Count == 0)
+          {
+            Console.WriteLine("You got no friends...");
+            break;
+          }
+
+          int choice = Convert.ToInt32(Console.ReadLine());
+          if (choice < 1 || choice > otherUsers.Count)
+          {
+            Console.WriteLine("Wrong input, try again...");
+            Console.ReadLine();
+            break;
+          }
+
+          User targetUser = otherUsers[choice - 1];
+
+          List<Items> chooseItems = new List<Items>();
+          bool addingItems = true;
+
+          while (addingItems)
+          {
+            Console.Clear();
+            Console.WriteLine("Your inventory: ");
+            activeUser.ShowInventory();
+
+            Console.WriteLine("\n Enter the number of the item you would like to add (0 = done):");
+            int itemChoice = Convert.ToInt32(Console.ReadLine());
+
+            if (itemChoice == 0)
+            {
+              addingItems = false;
+              break;
+            }
+
+            List<Items> myItems = activeUser.GetInventory();
+            if (itemChoice < 1 || itemChoice > myItems.Count)
+            {
+              chooseItems.Add(myItems[itemChoice - 1]);
+              Console.ReadLine();
+            }
+            else
+            {
+              chooseItems.Add(myItems[itemChoice - 1]);
+              Console.WriteLine("Item added to your trade.");
+              Console.ReadLine();
+            }
+          }
+          if (chooseItems.Count > 0)
+          {
+            tradeRequests.Add(new TradeRequest(activeUser, targetUser, chooseItems));
+            Console.WriteLine($"\nTrade request with {chooseItems.Count} items sent to {targetUser.Username}");
+          }
+
           Console.ReadLine();
           break;
 
