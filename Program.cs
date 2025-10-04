@@ -223,7 +223,7 @@ while (true)
             List<Items> myItems = activeUser.GetInventory();
             if (itemChoice < 1 || itemChoice > myItems.Count)
             {
-              chooseItems.Add(myItems[itemChoice - 1]);
+              Console.WriteLine("Wrong, try again..");
               Console.ReadLine();
             }
             else
@@ -245,19 +245,62 @@ while (true)
         case 3:
           Console.Clear();
           Console.WriteLine("===== All active traderequests =====");
+          List<TradeRequest> incoming = new List<TradeRequest>();
+
           foreach (var request in tradeRequests)
           {
-            if (request.ToUser == activeUser)
+            if (!request.IsCompleted && request.ToUser == activeUser)
             {
-              Console.WriteLine($"From: {request.FromUser.Username}");
-              Console.WriteLine("Items offered:");
-              foreach (var item in request.OfferedItems)
-              {
-                Console.WriteLine($"- {item.Weapon} | {item.Skin} | {item.Wear}");
-              }
-              Console.WriteLine();
+              incoming.Add(request);
             }
           }
+
+          if (incoming.Count == 0)
+          {
+            Console.WriteLine("No trade traderequest here....");
+            Console.WriteLine("\n---Press Enter to go back---");
+            Console.ReadLine();
+            break;
+          }
+
+          for (int j = 0; j < incoming.Count; j++)
+          {
+            var request2 = incoming[j];
+            Console.WriteLine($"{j + 1}. From: {request2.FromUser.Username} - Items: {request2.OfferedItems.Count}");
+          }
+
+          Console.WriteLine("\nChoose a request to handle (o = back):");
+          int request2Choice = Convert.ToInt32(Console.ReadLine());
+
+          if (request2Choice < 1 || request2Choice > incoming.Count)
+          {
+            Console.WriteLine("wrong, go back");
+            Console.ReadLine();
+            break;
+          }
+          else if (request2Choice == 0)
+          {
+            break;
+          }
+
+          var selected = incoming[request2Choice - 1];
+          Console.Clear();
+          selected.ShowRequest();
+          Console.WriteLine("Wanna accept or nah? write: y/n");
+
+          var decision = Console.ReadLine().ToLower();
+
+          if (decision == "y")
+          {
+            selected.Accept();
+            Console.WriteLine("Trade accepted, enjoy your beuts of new items!");
+          }
+          else
+          {
+            selected.Deny();
+            Console.WriteLine("Trade denied, that greedy bastard.....");
+          }
+
           Console.WriteLine("\n---press Enter to go back---");
           Console.ReadLine();
           break;

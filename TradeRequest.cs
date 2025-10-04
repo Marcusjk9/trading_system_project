@@ -26,6 +26,34 @@ class TradeRequest
   }
   public void Accept()
   {
+    if (IsCompleted)
 
+    {
+      return;
+    }
+
+    var itemsCopy = new List<Items>(OfferedItems);
+    foreach (var item in itemsCopy)
+    {
+      if (FromUser.GetInventory().Contains(item))
+      {
+        FromUser.GetInventory().Remove(item);
+        ToUser.AddItem(item);
+
+      }
+    }
+    IsAccepted = true;
+    IsCompleted = true;
+  }
+
+  public void Deny()
+  {
+    if (IsCompleted)
+    {
+      return;
+    }
+
+    IsAccepted = false;
+    IsCompleted = true;
   }
 }
