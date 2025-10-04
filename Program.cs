@@ -233,12 +233,51 @@ while (true)
               Console.ReadLine();
             }
           }
-          if (chooseItems.Count > 0)
+
+          List<Items> requestedItems = new List<Items>();
+          bool activeTrade = true;
+
+          while (activeTrade)
           {
-            tradeRequests.Add(new TradeRequest(activeUser, targetUser, chooseItems));
-            Console.WriteLine($"\nTrade request with {chooseItems.Count} items sent to {targetUser.Username}");
+            Console.Clear();
+            Console.WriteLine($"{targetUser.Username} inventory: ");
+            targetUser.ShowInventory();
+
+            Console.WriteLine("\nEnter the number of the item you want and then '0' when doen");
+            int itemChoice = Convert.ToInt32(Console.ReadLine());
+
+            if (itemChoice == 0)
+            {
+              activeTrade = false;
+              break;
+            }
+
+            List<Items> theirItems = targetUser.GetInventory();
+            if (itemChoice < 1 || itemChoice > theirItems.Count)
+            {
+              Console.WriteLine("Wrong, try again...");
+            }
+            else
+            {
+              requestedItems.Add(theirItems[itemChoice - 1]);
+              Console.WriteLine("item added to the request");
+              Console.ReadLine();
+            }
           }
 
+          if (chooseItems.Count > 0 || requestedItems.Count > 0)
+          {
+            TradeRequest newTrade = new TradeRequest(activeUser, targetUser, chooseItems);
+            newTrade.RequestedItems = requestedItems;
+            tradeRequests.Add(newTrade);
+            Console.WriteLine($"\nTrade request sent to {targetUser.Username} with the item(s) {chooseItems.Count} for {requestedItems.Count}");
+          }
+          else
+          {
+            Console.WriteLine("Nothing picked...");
+          }
+
+          Console.WriteLine("\n---Press Enter to go back---");
           Console.ReadLine();
           break;
 
