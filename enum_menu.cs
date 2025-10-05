@@ -1,5 +1,7 @@
 namespace App;
 
+// Enum för huvudmenyn efter att man loggat in .
+// Gör koden tydligare och enklare att läsa istället för hårdkodade nummer.
 enum Menu
 {
   inventory,
@@ -7,5 +9,5 @@ enum Menu
   tradeOffers,
   tradeRequest,
   history,
-  logOut,
+
 }

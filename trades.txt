@@ -1,0 +1,3 @@
+Trade:z,a,True,True
+Offered:AWP|PAW|BS
+Requested:AWP|Dragon Lore|FN
