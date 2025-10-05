@@ -346,6 +346,49 @@ while (true)
         case 4:
           Console.Clear();
           Console.WriteLine("===== Your trade history =====");
+
+          bool history = false;
+
+          foreach (var request in tradeRequests)
+          {
+            if (request.IsCompleted && (request.FromUser == activeUser || request.ToUser == activeUser))
+            {
+              history = true;
+
+              Console.WriteLine("------------------------------");
+              Console.WriteLine($"From: {request.FromUser.Username}. To: {request.ToUser.Username}");
+
+              if (request.IsAccepted)
+              {
+                Console.WriteLine("--Accepted trade--");
+              }
+              else
+              {
+                Console.WriteLine("--Declined trade--");
+              }
+
+              Console.WriteLine("Offered:");
+              foreach (var item in request.OfferedItems)
+              {
+                Console.WriteLine($" {item.Weapon} | {item.Skin} ({item.Wear})");
+              }
+              Console.WriteLine("Requested:");
+              foreach (var item in request.RequestedItems)
+              {
+                Console.WriteLine($" {item.Weapon} | {item.Skin} ({item.Wear})");
+              }
+
+              if (request.IsAccepted && (request.FromUser == activeUser || request.ToUser == activeUser))
+              {
+                Console.WriteLine("You traded these items");
+              }
+            }
+          }
+          if (!history)
+          {
+            Console.WriteLine("No trades ever happend, are you delulu?");
+          }
+          Console.WriteLine("\n---Press Enter to go back---");
           Console.ReadLine();
           break;
         case 5:
