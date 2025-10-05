@@ -9,6 +9,7 @@ class TradeRequest
   public bool IsCompleted { get; set; } = false;
   public bool IsAccepted { get; set; } = false;
 
+  public TradeRequest() { }
   public TradeRequest(User fromUser, User toUser, List<Items> offeredItems)
   {
     FromUser = fromUser;

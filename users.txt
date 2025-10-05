@@ -1,0 +1,12 @@
+User:a,a
+Item:AWP|Dragon Lore|FN
+Item:AK-47|Redline|FT
+User:s,s
+Item:M4A1-S|Nightmare|BS
+Item:AK-47|Slate|FT
+User:d,d
+Item:USP-S|Jawbreaker|FN
+Item:Glock|Fade|BS
+User:z,z
+Item:AWP|PAW|BS
+User:l,l

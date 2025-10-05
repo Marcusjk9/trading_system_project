@@ -15,46 +15,120 @@ Ni ska kunna svara på “Varför?” gällande er kod.
     A user needs to be able to register an account  (**)
     A user needs to be able to log out. (**)
     A user needs to be able to log in. (**)
-    A user needs to be able to upload information about the item they wish to trade. (__)
+    A user needs to be able to upload information about the item they wish to trade. (**)
     A user needs to be able to browse a list of other users items. (**)
-    A user needs to be able to request a trade for other users items. (__)
-    A user needs to be able to browse trade requests. (__)
-    A user needs to be able to accept a trade request. (__)
-    A user needs to be able to deny a trade request. (__)
-    A user needs to be able to browse completed requests. (__)
+    A user needs to be able to request a trade for other users items. (**)
+    A user needs to be able to browse trade requests. (**)
+    A user needs to be able to accept a trade request. (**)
+    A user needs to be able to deny a trade request. (**)
+    A user needs to be able to browse completed requests. (**)
     */
 
-/*registrera user, sak att tradea, login/out, ska kunna hålla information om itemet, se andras inventory, trade request, browse trade request, accept, deny, browse historik
+/*registrera user*, sak att tradea*, login/out*, ska kunna hålla information om itemet*, se andras inventory*, trade request*, browse trade request*, accept*, deny*, browse historik*
 */
 
 /* tillägg att kunna spara tex profiler vi skapar i terminalen OBS ska göra en README ang vad jag använt och vad jag inte använt och varför*/
 
 using System.Reflection.Metadata;
+using System.Text;
 using App;
 
+
+string usersFile = "users.txt";
+string tradesFile = "trades.txt";
+
 List<User> users = new List<User>();
-
-var userA = new User("a", "a");
-users.Add(userA);
-userA.AddItem(new Items { Weapon = "AWP", Skin = "Dragon Lore", Wear = "FN" });
-userA.AddItem(new Items { Weapon = "AK-47", Skin = "Redline", Wear = "FT" });
-var userS = new User("s", "s");
-users.Add(userS);
-userS.AddItem(new Items { Weapon = "M4A1-S", Skin = "Nightmare", Wear = "BS" });
-userS.AddItem(new Items { Weapon = "AK-47", Skin = "Slate", Wear = "FT" });
-var userD = new User("d", "d");
-users.Add(userD);
-userD.AddItem(new Items { Weapon = "USP-S", Skin = "Jawbreaker", Wear = "FN" });
-userD.AddItem(new Items { Weapon = "Glock", Skin = "Fade", Wear = "BS" });
-
-
-
-
 List<TradeRequest> tradeRequests = new List<TradeRequest>();
 
+if (File.Exists(usersFile))
+{
+  var lines = File.ReadAllLines(usersFile);
+  User? currentUser = null;
+
+  foreach (var line in lines)
+  {
+    if (line.StartsWith("User:"))
+    {
+      var parts = line.Substring(5).Split(',');
+      currentUser = new User(parts[0], parts[1]);
+      users.Add(currentUser);
+    }
+    else if (line.StartsWith("Item:") && currentUser != null)
+    {
+      var parts = line.Substring(5).Split('|');
+      currentUser.AddItem(new Items
+      {
+        Weapon = parts[0],
+        Skin = parts[1],
+        Wear = parts[2]
+      });
+    }
+  }
+}
+
+if (File.Exists(tradesFile))
+{
+  TradeRequest? currentRequest = null;
+  foreach (var line in File.ReadAllLines(tradesFile))
+  {
+    if (line.StartsWith("Trade:"))
+    {
+      var parts = line.Substring(6).Split(',');
+      var fromUser = users.Find(u => u.Username == parts[0]);
+      var toUser = users.Find(u => u.Username == parts[1]);
+      if (fromUser != null && toUser != null)
+      {
+        currentRequest = new TradeRequest(fromUser, toUser, new List<Items>());
+        currentRequest.IsCompleted = bool.Parse(parts[2]);
+        currentRequest.IsAccepted = bool.Parse(parts[3]);
+        tradeRequests.Add(currentRequest);
+      }
+    }
+    else if (line.StartsWith("Offered:") && currentRequest != null)
+    {
+      var parts = line.Substring(8).Split('|');
+      currentRequest.OfferedItems.Add(new Items
+      {
+        Weapon = parts[0],
+        Skin = parts[1],
+        Wear = parts[2]
+      });
+    }
+    else if (line.StartsWith("Requested:") && currentRequest != null)
+    {
+      var parts = line.Substring(10).Split('|');
+      currentRequest.RequestedItems.Add(new Items
+      {
+        Weapon = parts[0],
+        Skin = parts[1],
+        Wear = parts[2]
+      });
+    }
+  }
+}
+
+
+if (users.Count == 0)
+{
+  var userA = new User("a", "a");
+  users.Add(userA);
+  userA.AddItem(new Items { Weapon = "AWP", Skin = "Dragon Lore", Wear = "FN" });
+  userA.AddItem(new Items { Weapon = "AK-47", Skin = "Redline", Wear = "FT" });
+  var userS = new User("s", "s");
+  users.Add(userS);
+  userS.AddItem(new Items { Weapon = "M4A1-S", Skin = "Nightmare", Wear = "BS" });
+  userS.AddItem(new Items { Weapon = "AK-47", Skin = "Slate", Wear = "FT" });
+  var userD = new User("d", "d");
+  users.Add(userD);
+  userD.AddItem(new Items { Weapon = "USP-S", Skin = "Jawbreaker", Wear = "FN" });
+  userD.AddItem(new Items { Weapon = "Glock", Skin = "Fade", Wear = "BS" });
+
+  SaveUsers();
+}
 
 User activeUser = null;
 bool loggedIn = false;
+
 while (true)
 {
 
@@ -96,8 +170,6 @@ while (true)
           }
           break;
 
-
-
         case 1:
           Console.Clear();
           Console.WriteLine("===== Register Menu =====");
@@ -105,8 +177,11 @@ while (true)
           string? Username = Console.ReadLine();
           Console.WriteLine("password:");
           string? _password = Console.ReadLine();
-          Console.Clear();
           users.Add(new User(Username, _password));
+
+          SaveUsers();
+
+          Console.Clear();
           Console.WriteLine("register done, now go and login");
           Console.ReadLine();
           break;
@@ -117,10 +192,6 @@ while (true)
           return;
       }
     }
-
-
-
-
 
     while (activeUser != null && loggedIn)
     {
@@ -150,6 +221,9 @@ while (true)
             string wear = Console.ReadLine();
 
             activeUser.AddItem(new Items { Weapon = weapon, Skin = skin, Wear = wear });
+
+            SaveUsers();
+
             Console.WriteLine("New item added");
 
           }
@@ -270,6 +344,7 @@ while (true)
             TradeRequest newTrade = new TradeRequest(activeUser, targetUser, chooseItems);
             newTrade.RequestedItems = requestedItems;
             tradeRequests.Add(newTrade);
+            SaveTrades();
             Console.WriteLine($"\nTrade request sent to {targetUser.Username} with the item(s) {chooseItems.Count} for {requestedItems.Count}");
           }
           else
@@ -332,11 +407,13 @@ while (true)
           if (decision == "y")
           {
             selected.Accept();
+            SaveTrades();
             Console.WriteLine("Trade accepted, enjoy your beuts of new items!");
           }
           else
           {
             selected.Deny();
+            SaveTrades();
             Console.WriteLine("Trade denied, that greedy bastard.....");
           }
 
@@ -401,3 +478,36 @@ while (true)
   }
 }
 
+void SaveUsers()
+{
+  List<string> lines = new List<string>();
+
+  foreach (var user in users)
+  {
+    lines.Add($"User:{user.Username},{user._password}");
+    foreach (var item in user.GetInventory())
+    {
+      lines.Add($"Item:{item.Weapon}|{item.Skin}|{item.Wear}");
+    }
+  }
+
+  File.WriteAllLines(usersFile, lines);
+}
+
+void SaveTrades()
+{
+  List<string> lines = new List<string>();
+  foreach (var tr in tradeRequests)
+  {
+    lines.Add($"Trade:{tr.FromUser.Username},{tr.ToUser.Username},{tr.IsCompleted},{tr.IsAccepted}");
+    foreach (var item in tr.OfferedItems)
+    {
+      lines.Add($"Offered:{item.Weapon}|{item.Skin}|{item.Wear}");
+    }
+    foreach (var item in tr.RequestedItems)
+    {
+      lines.Add($"Requested:{item.Weapon}|{item.Skin}|{item.Wear}");
+    }
+  }
+  File.WriteAllLines(tradesFile, lines);
+}

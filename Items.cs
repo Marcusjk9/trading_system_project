@@ -6,7 +6,7 @@ class Items
   public string Skin { get; set; }
   public string Wear { get; set; }
 
-
+  public Items() { }
   public override string ToString()
   {
     return $"{Weapon} | {Skin} ({Wear})";

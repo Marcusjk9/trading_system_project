@@ -3,9 +3,10 @@ namespace App;
 class User
 {
   public string Username;
-  string _password;
+  public string _password;
   List<Items> inventory = new List<Items>();
 
+  public User() { }
   public User(string username, string password)
   {
     Username = username;
