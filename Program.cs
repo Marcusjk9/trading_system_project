@@ -492,6 +492,9 @@ while (true)
           break;
         case 5: //Logga ut
           Console.Clear();
+          //extra saves så att saker garanterat sparas
+          SaveUsers();
+          SaveTrades();
           loggedIn = false;
           activeUser = null;
           break;

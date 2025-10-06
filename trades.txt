@@ -1,3 +1,9 @@
 Trade:z,a,True,True
 Offered:AWP|PAW|BS
 Requested:AWP|Dragon Lore|FN
+Trade:marcus,z,True,True
+Offered:M4A4|Howl|FT
+Requested:AWP|PAW|BS
+Trade:marcus,z,True,True
+Offered:M4A4|Howl|FT
+Requested:AWP|PAW|BS

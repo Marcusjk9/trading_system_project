@@ -10,4 +10,6 @@ enum Menu
   tradeRequest,
   history,
 
+  Logout,
+
 }

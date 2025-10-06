@@ -8,5 +8,7 @@ User:d,d
 Item:USP-S|Jawbreaker|FN
 Item:Glock|Fade|BS
 User:z,z
-Item:AWP|PAW|BS
+Item:M4A4|Howl|FT
 User:l,l
+User:marcus,marcus
+Item:AWP|PAW|BS
