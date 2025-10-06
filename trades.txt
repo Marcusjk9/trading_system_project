@@ -7,3 +7,5 @@ Requested:AWP|PAW|BS
 Trade:marcus,z,True,True
 Offered:M4A4|Howl|FT
 Requested:AWP|PAW|BS
+Trade:a,s,True,False
+Offered:AWP|Dragon Lore|FN
